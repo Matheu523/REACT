@@ -27,7 +27,7 @@ app.post('/usuarios', async (req, res) =>{
 app.put('/usuarios/:id', async (req, res) =>{
 
     try {
-    const { nome, email } = req.body;
+    const { name, age, email } = req.body;
 
     const updatedUser = await prisma.user.update({
         where: {
