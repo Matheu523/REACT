@@ -26,7 +26,10 @@ app.post('/usuarios', async (req, res) =>{
 
 app.put('/usuarios/:id', async (req, res) =>{
 
-    await prisma.user.update({
+    try {
+    const { nome, email } = req.body;
+
+    const updatedUser = await prisma.user.update({
         where: {
             id: req.params.id
         },
@@ -37,8 +40,18 @@ app.put('/usuarios/:id', async (req, res) =>{
         }
     })
 
-    res.status(201).json(req.body)
+    res.status(200).json({
+        message: "Usuário atualizado com sucesso", 
+        usuario: updatedUser,
+    });
 
+}   catch (error) {
+    console.error(error);
+    res.status(500).json({
+        message:"Erro ao atualizar",
+        error: error.message,
+    })
+}
 })
 
 app.delete('/usuarios/:id', async (req,res)=>{
